@@ -32,7 +32,7 @@ async function updateRepo(distros) {
   let toAdd = newHashes.diff(hashesAlreadyThere);
 
   for (let i of toRemove) {
-    removeFile(toRemove[i]);
+    removeFile(i);
   }
 
   for (let hash of toAdd) {
