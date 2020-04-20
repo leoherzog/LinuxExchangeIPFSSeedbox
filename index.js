@@ -27,21 +27,33 @@ async function updateRepo(distros) {
   for await (const hash of node.pin.ls({"type": "recursive"})) {
     hashesAlreadyThere.push(hash.cid.toString());
   };
-  
+
   var toRemove = hashesAlreadyThere.diff(newHashes);
   let toAdd = newHashes.diff(hashesAlreadyThere);
 
   for (let i of toRemove) {
-    removeFile(i);
+    await removeFile(i);
   }
 
   for (let hash of toAdd) {
     let version = versions.find(a => a['ipfs-hash'] == hash);
-    addFile(version['direct-download-url'].replace('{{base64time}}', timeInBase64));
+    await addFile(version['direct-download-url'].replace('{{base64time}}', timeInBase64));
   }
 
   setInterval(refresh, 30 * 60 * 1000);
 
+}
+
+async function removeFile(hash) {
+  try {
+    await node.pin.rm(hash);
+    await node.repo.gc();
+    console.log("Removed " + hash);
+    return;
+  }
+  catch(e) {
+    console.error('Problem removing: ' + e.toString());
+  }
 }
 
 async function addFile(url) {
@@ -53,17 +65,6 @@ async function addFile(url) {
   }
   catch(e) {
     console.error('Problem downloading: ' + e.toString());
-  }
-}
-
-async function removeFile(hash) {
-  try {
-    await node.pin.rm(hash);
-    await node.repo.gc();
-    console.log("Removed " + hash);
-  }
-  catch(e) {
-    console.error('Problem removing: ' + e.toString());
   }
 }
 
