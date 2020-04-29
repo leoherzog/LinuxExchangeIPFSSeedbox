@@ -1,11 +1,11 @@
 const fetch = require('node-fetch');
-const ipfs = require('ipfs');
+const ipfs = require('ipfs-http-client');
 const { urlSource } = ipfs;
 
 var node;
 
 async function start() {
-  node = await ipfs.create({"repo": ".cache"});
+  node = await ipfs('http://localhost:5001');
   refresh();
 }
 
@@ -31,8 +31,8 @@ async function updateRepo(distros) {
   var toRemove = hashesAlreadyThere.diff(newHashes);
   let toAdd = newHashes.diff(hashesAlreadyThere);
 
-  for (let i of toRemove) {
-    await removeFile(i);
+  for (let hash of toRemove) {
+    await removeFile(hash);
   }
 
   for (let hash of toAdd) {
@@ -40,7 +40,7 @@ async function updateRepo(distros) {
     await addFile(version['direct-download-url'].replace('{{base64time}}', timeInBase64));
   }
 
-  setInterval(refresh, 30 * 60 * 1000);
+  return;
 
 }
 

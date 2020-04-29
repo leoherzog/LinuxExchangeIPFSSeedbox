@@ -4,12 +4,13 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-npm install ipfs
+npm install ipfs-http-client
 sed -i -e 's/http.get(url)/http.get(url, options)/g' node_modules/ipfs-utils/src/files/url-source.js
 echo "Installed Node Libs and Modified urlSource"
 
-cp ./seedbox.service /lib/systemd/system/seedbox.service
+cp ./ipfs.service /lib/systemd/system/ipfs.service
 systemctl daemon-reload
-systemctl enable seedbox.service
-systemctl start seedbox.service
-echo "Systemd service copied and started!"
+systemctl enable ipfs.service
+systemctl start ipfs.service
+echo "Systemd service copied and started! Install IPFS and install this crontab:"
+echo "0/4 * * * * /usr/bin/node /home/pi/LinuxExchangeIPFSSeedbox/index.js"
