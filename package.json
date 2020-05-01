@@ -1,0 +1,20 @@
+{
+  "name": "linuxexchangeipfsseedbox",
+  "description": "A script to pin Linux Exchange ISOs to IPFS",
+  "version": "0.2.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leoherzog/LinuxExchangeIPFSSeedbox.git"
+  },
+  "author": "Leo Herzog <leo@herzog.tech>",
+  "license": "CC BY-SA 4.0",
+  "bugs": {
+    "url": "https://github.com/leoherzog/LinuxExchangeIPFSSeedbox/issues"
+  },
+  "homepage": "https://github.com/leoherzog/LinuxExchangeIPFSSeedbox",
+  "dependencies": {
+    "node-fetch": "latest",
+    "ipfs-http-client": "latest"
+  }
+}
