@@ -5,7 +5,6 @@ if [ "$EUID" -ne 0 ]
 fi
 
 npm install ipfs-http-client
-sed -i -e 's/http.get(url)/http.get(url, options)/g' node_modules/ipfs-utils/src/files/url-source.js
 echo "Installed Node Libs and Modified urlSource"
 
 cp ./ipfs.service /lib/systemd/system/ipfs.service
