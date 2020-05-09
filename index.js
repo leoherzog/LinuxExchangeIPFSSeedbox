@@ -10,7 +10,9 @@ async function start() {
 
   let res = await fetch('https://linux.exchange/distros.json');
   res = await res.json();
-  updateRepo(res);
+  await updateRepo(res);
+
+  process.exit();
 
 }
 
