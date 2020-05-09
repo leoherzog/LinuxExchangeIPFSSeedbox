@@ -31,6 +31,8 @@ async function updateRepo(distros) {
   var toRemove = hashesAlreadyThere.diff(newHashes);
   let toAdd = newHashes.diff(hashesAlreadyThere);
 
+  console.log('Need to remove ' + toRemove.length + ' and add ' + toAdd.length);
+
   for (let hash of toRemove) {
     await removeFile(hash);
   }
