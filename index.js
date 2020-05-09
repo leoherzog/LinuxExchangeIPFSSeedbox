@@ -5,14 +5,13 @@ const { urlSource } = ipfs;
 var node;
 
 async function start() {
-  node = await ipfs('http://localhost:5001');
-  refresh();
-}
 
-function refresh() {
-  fetch('https://linux.exchange/distros.json')
-    .then(res => res.json())
-    .then(json => updateRepo(json));
+  node = await ipfs('http://localhost:5001');
+
+  let res = await fetch('https://linux.exchange/distros.json');
+  res = await res.json();
+  updateRepo(res);
+
 }
 
 async function updateRepo(distros) {
@@ -34,11 +33,13 @@ async function updateRepo(distros) {
   console.log('Need to remove ' + toRemove.length + ' and add ' + toAdd.length);
 
   for (let hash of toRemove) {
+    console.log("Removing " + hash);
     await removeFile(hash);
   }
 
   for (let hash of toAdd) {
     let version = versions.find(a => a['ipfs-hash'] == hash);
+    console.log("Adding " + version['direct-download-url'].substring(version['direct-download-url'].lastIndexOf('/') + 1));
     await addFile(version['direct-download-url'].replace('{{base64time}}', timeInBase64));
   }
 
