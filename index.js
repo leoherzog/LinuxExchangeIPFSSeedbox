@@ -63,7 +63,7 @@ async function removeFile(hash) {
 
 async function addFile(url) {
   try {
-    for await (const file of node.add(urlSource(url, {"headers": {"user-agent": "Wget/"}}))) {
+    for await (const file of node.add(urlSource(url, {"timeout": 60 * 1000, "headers": {"user-agent": "Wget/"}}))) {
       console.log("Added " + url.substring(url.lastIndexOf('/') + 1));
       return;
     }
